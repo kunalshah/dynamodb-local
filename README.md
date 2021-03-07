@@ -1,17 +1,25 @@
 # README
 
-## Why use this container
-- Amazon provides [local dynamodb](https://hub.docker.com/r/amazon/dynamodb-local) but it it in-memory so data doesn't persist after restart of the container.
-- This docker image is ~200MB smaller than [Amazon's local dynamodb](https://hub.docker.com/r/amazon/dynamodb-local)
-- Source code is available of this Docker image. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/Dockerfile)
+## Why use this image
+
+- [Amazon provided DynamoDb Local container image](https://hub.docker.com/r/amazon/dynamodb-local) is in-memory so data doesn't persist. This image allows data persistence between container restart and/or container removal.
+- This docker image is ~200MB smaller than [Amazon provided DynamoDb Local container image](https://hub.docker.com/r/amazon/dynamodb-local)
+- Source code of this Docker image is available. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile). You can change parameters in [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile) and re-build the image if you need to. Instructions are provided below.
+
+---
 
 ## About this image
-This dynamodb-local container image 
-- allow you to persist the data between container restarts and removal
-- uses Dynamodb's default port 8000
 
-If you want Dynamodb Local to listen on some other port, 
-then you can clone the repo, change the port in Dockerfile and rebuild the image.
+This dynamodb-local container image:
+
+- Allow data persistence between container restarts and removal
+- Uses DynamoDb's default port 8000
+- Uses sharedDb so that applications can access the data regardless of the region
+
+If you want DynamoDb Local to listen to other port, or you don't want sharedDB,
+then you can clone the repo, change appropriately in [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile) and re-build the image.
+
+---
 
 ## How to run this image
 
@@ -25,14 +33,27 @@ then you can clone the repo, change the port in Dockerfile and rebuild the image
 docker run \
 --rm \
 -d \
---name dynamodb-local \
 -v $PWD:/data \
 -p 8000:8000 \
-dynamodb-local:latest
+--name dynamodb-local \
+kunalshah/dynamodb-local:latest
 ```
 
-## How to build and run this image yourself
-In this git repository, see docker/build.sh and docker/run.sh
+### Data will be stored in `$PWD/shared-local-instance.db`
 
-## How to run dynamodb local without docker container
-In this git repository, see local/download.sh and local/run.sh
+---
+
+## How to build and run this image yourself
+
+In this git repository:
+- See [docker/build.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/build.sh) to build the local image
+- See [docker/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/run.sh) to run the locally built image
+
+---
+
+## How to run DynamoDb Local without Docker
+
+In this git repository:
+
+- See [local/download.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/download.sh) to download the latest version of DynamoDb Local
+- See [local/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/run.sh) to run the run the downloaded DynamoDb Local
