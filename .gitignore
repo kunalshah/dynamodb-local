@@ -1,0 +1,11 @@
+.DS_Store
+
+*.log
+*.zip
+*.gz
+*.tar.gz
+
+data
+*.db
+
+dynamodb_local_latest
