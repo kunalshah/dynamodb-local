@@ -1,17 +1,16 @@
 FROM openjdk:17-slim-buster
 
-# update packages and install curl
+# Update packages and install curl
 RUN apt-get update && apt-get install -y curl
 
-# dynamodb local will be installed to /app directory 
+# Set /app as working directory. dynamodb local will be installed to this directory.
 WORKDIR /app
 
+# Download latest version of dynamodb-local from Amazon
 # See https://docs.amazonaws.cn/en_us/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
-
-# download latest version of dynamodb-local
 RUN curl -O https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
 
-# extract the file
+# Extract the dynamodb-local package
 RUN tar zxvf dynamodb_local_latest.tar.gz
 
 # See https://docs.amazonaws.cn/en_us/amazondynamodb/latest/developerguide/DynamoDBLocal.UsageNotes.html
@@ -24,7 +23,7 @@ RUN tar zxvf dynamodb_local_latest.tar.gz
 # -sharedDb will allow sharing between NoSQL Workbench, AWS CLI and other applications
 
 # Pass the /data folder as a volume while running this container which allows storing the data outside the container
-# See run.sh for example
+# See docker/run.sh for example
 
 EXPOSE 8000
 
