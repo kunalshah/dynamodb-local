@@ -1,10 +1,14 @@
 # README
 
+DynamoDb Local that persists data as single file.
+
+If this docker image is useful to you, please consider giving it a star on [GitHub](https://github.com/kunalshah/dynamodb-local) and/or [DockerHub](https://hub.docker.com/r/kunalshah/dynamodb-local)
+
 ## Why use this image
 
 - [Amazon provided container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local) is in-memory so data doesn't persist and currently there's no option to configure it. Whereas, this image allows data persistence between container restart and/or container removal.
-- About 150 MB smaller than [Amazon provided container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local)
-- [Source code](https://www.github.com/kunalshah/dynamodb-local) of this Docker image is available. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile)
+- About 80 MB smaller than [Amazon provided container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local)
+- [Source code](https://www.github.com/kunalshah/dynamodb-local) of this Docker image is available. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile).
 
 ---
 
@@ -12,7 +16,7 @@
 
 This dynamodb-local container image:
 
-- Persists data between container restarts and removal. Data will be read from / write to `shared-local-instance.db`
+- Persists data to `shared-local-instance.db`, so that data can be read again after container restarts and removal.
 - Uses sharedDb so that applications can access the data regardless of the region
 - Uses DynamoDb's default port 8000
 
@@ -27,8 +31,9 @@ If you want DynamoDb Local to listen to other port, or you don't want sharedDB; 
 # Assuming that your current folder ($PWD) is already shared with docker desktop. 
 # If not, you can share it through Docker Desktop -> Preferences -> Resource -> File Sharing
 
-# Note that we use --rm here so the container will be removed when it exits. However, data will persist as shared-instance.db
-# So you will be able to read the tables and data when you run the container again
+# Note that we use --rm here so the container will be removed when it exits. However, data will persist in shared-local-instance.db
+
+docker pull kunalshah/dynamodb-local
 
 docker run \
 --rm \
@@ -36,11 +41,10 @@ docker run \
 -v $PWD:/data \
 -p 8000:8000 \
 --name dynamodb-local \
-kunalshah/dynamodb-local:latest
+kunalshah/dynamodb-local
 ```
 
 `$PWD/shared-local-instance.db` will be used for data read/write.
-
 
 ---
 
