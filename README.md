@@ -8,10 +8,10 @@ If this image is useful to you, please consider giving it a `Star` on [GitHub](h
 
 ## Why use this image
 
-- This image persists to disk. Data can be read again after container restart or removal, whereas [Amazon provided container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local) is in-memory and currently there is no option to persist data.
+- This image persists to disk by default, whereas [Amazon's container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local) is in-memory and currently there is no option to configure it
 - Continuously updated (everyday or few times a week) so that you always get latest version of DynamoDb Local
-- About 80 MB smaller than [Amazon provided container image of DynamoDb Local](https://hub.docker.com/r/amazon/dynamodb-local)
-- [Source code](https://www.github.com/kunalshah/dynamodb-local) of this Docker image is available. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile).
+- About 80 MB smaller than Amazon's container image of DynamoDb Local
+- Source code is available on GitHub. See [Dockerfile](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile).
 
 ---
 
@@ -38,33 +38,40 @@ docker run \
 -p 8000:8000 \
 --name dynamodb-local \
 kunalshah/dynamodb-local
+
+# Due to usage of --rm, container will be removed when it exits
+# However, data will persist in $PWD/shared-local-instance.db
 ```
 
-Container will be removed when it exits due to `--rm`
+#### Connecting to DynamoDb Container through AWS CLI
 
-However, data will persist in `$PWD/shared-local-instance.db`
+```bash
+#profile name from ~/.aws/credentials
+export AWS_PROFILE=MyAWSProfile
 
----
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+or
+
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --profile MyAWSProfile
+```
 
 ## Other Information
 
-1. Why is this image based on [bitnami/java](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile#L6)
+1. How to build and run this image locally
+
+    1. See [docker/build.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/build.sh) to build the image
+    2. See [docker/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/run.sh) to run the locally built image
+
+2. How to run DynamoDb Local without Docker
+
+    - See [local/download.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/download.sh) to download DynamoDb Local
+    - See [local/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/run.sh) to run DynamoDb Local
+
+3. Why this image is based on [bitnami/java](https://github.com/kunalshah/dynamodb-local/blob/main/Dockerfile#L6)
 
     `bitnami/java` is well maintained, uses CI/CD and it is continuously updated.
     
     When `bitnami/java` publishes new image (almost every day or week), new build of `kunalshah/dynamodb-local` triggers on DockerHub automatically.
 
     So you get latest version of `DynamoDb Local` when you download this image.
-
-2. How to build and run this image yourself
-
-    In this git repository:
-    1. See [docker/build.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/build.sh) to build the local image
-    2. See [docker/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/docker/run.sh) to run the locally built image
-
-3. How to run DynamoDb Local without Docker
-
-    In this git repository:
-
-    - See [local/download.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/download.sh) to download the latest version of DynamoDb Local
-    - See [local/run.sh](https://github.com/kunalshah/dynamodb-local/blob/main/local/run.sh) to run the run the downloaded DynamoDb Local
