@@ -1,7 +1,7 @@
 # Base Image is bitnami/java because:
-# - it is well maintained
-# - based on CI/CD so there's new build every day or week
-# - https://hub.docker.com/r/kunalshah/dynamodb-local is setup such that new image of bitnami/java will trigger new build of kunalshah/dynamodb-local on DockerHub
+# - It is well maintained
+# - It uses CI/CD. New image is published almost every day or week
+# - https://hub.docker.com/r/kunalshah/dynamodb-local is setup such that new build of this image will trigger when new image of bitnami/java is published
 
 FROM bitnami/java
 
