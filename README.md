@@ -75,3 +75,4 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000 --profile MyAWSPro
     When `bitnami/java` publishes new image (almost every day or week), new build of `kunalshah/dynamodb-local` triggers on DockerHub automatically.
 
     So you get latest version of `DynamoDb Local` when you download this image.
+
