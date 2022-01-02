@@ -8,4 +8,4 @@ export REPO_ROOT=`git rev-parse --show-toplevel`
 cd $REPO_ROOT
 
 # start docker build
-docker build --no-cache=true -f Dockerfile -t dynamodb-local .
+docker build -f dockerfile -t dynamodb-local .
