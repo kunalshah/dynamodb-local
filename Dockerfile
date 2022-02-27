@@ -3,7 +3,7 @@
 # - It uses CI/CD. New image is published almost every day or week
 # - https://hub.docker.com/r/kunalshah/dynamodb-local is setup such that new build of this image will trigger when new image of bitnami/java is published
 
-FROM bitnami/java
+FROM openjdk:11
 
 # Update packages and install curl
 RUN apt-get update && apt-get install -y curl
